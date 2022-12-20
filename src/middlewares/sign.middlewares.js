@@ -28,7 +28,7 @@ export async function userSignUpValidation(req, res, next) {
 
 }
 
-export async function userSignInValidation(req, res, next) {
+export function userSignInValidation(req, res, next) {
 
     const validationStatus = signInSchema.validate(req.body, { abortEarly: false });
 

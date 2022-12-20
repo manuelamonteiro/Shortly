@@ -24,7 +24,7 @@ export async function postSignIn(req, res) {
     const token = uuidV4();
 
     try {
-        const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE email=$1;`, [email]);;
+        const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE email=$1;`, [email]);
 
         if (isUserExists.rows.length === 0) {
             res.status(401).send({ message: "Usuário e/ou senha incorretos!" });
@@ -38,7 +38,7 @@ export async function postSignIn(req, res) {
             return;
         };
 
-        await connectionDB.query("INSERT INTO sessions (userId, token) VALUES ($1, $2);",
+        await connectionDB.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2);`,
             [isUserExists.rows[0].id, token]);
 
         res.status(200).send({ token });
