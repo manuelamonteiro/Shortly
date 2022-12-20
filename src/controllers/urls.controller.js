@@ -68,3 +68,7 @@ export async function deleteUrl(req, res) {
     }
 
 }
+
+export async function getRanking(req, res){
+    
+}

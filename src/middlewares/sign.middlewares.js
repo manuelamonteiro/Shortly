@@ -14,7 +14,7 @@ export async function userSignUpValidation(req, res, next) {
     };
 
     try {
-        const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE email=$1;`, [user.email]);;
+        const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE email=$1;`, [user.email]);
 
         if (isUserExists.rows.length !== 0) {
             res.status(409).send({ message: "Esse e-mail já está cadastrado!" });
@@ -39,5 +39,9 @@ export function userSignInValidation(req, res, next) {
     };
 
     next();
+
+}
+
+export async function userExistence(req, res){
 
 }

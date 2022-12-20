@@ -82,8 +82,17 @@ export async function shortUrlOwnerValidation(req, res, next) {
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
 
-    try {
+    const { id } = req.params;
 
+    try {
+        const userSession = await connectionDB.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
+
+        const shortUrlByUser = await connectionDB.query(`SELECT * FROM urls WHERE id=$1 AND userId=$2;`, [id, userSession.rows[0].userId]);
+
+        if(shortUrlByUser.rows.length === 0){
+            res.status(401).send({message: "A shortUrl não pertence ao usuário!"});
+            return;
+        }
 
     } catch (error) {
         res.status(500).send({ message: error.message });

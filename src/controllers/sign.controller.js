@@ -47,3 +47,7 @@ export async function postSignIn(req, res) {
     }
 
 }
+
+export async function getUserUrls(req, res){
+    
+}
