@@ -11,7 +11,7 @@ export async function userSignUpValidation(req, res, next) {
         const error = validationStatus.error.details.map((detail) => detail.message);
         res.status(422).send({ message: error });
         return;
-    };
+    }
 
     try {
         const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE email=$1;`, [user.email]);
@@ -19,7 +19,7 @@ export async function userSignUpValidation(req, res, next) {
         if (isUserExists.rows.length !== 0) {
             res.status(409).send({ message: "Esse e-mail já está cadastrado!" });
             return;
-        };
+        }
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -36,12 +36,30 @@ export function userSignInValidation(req, res, next) {
         const error = validationStatus.error.details.map((detail) => detail.message);
         res.status(422).send({ message: error });
         return;
-    };
+    }
 
     next();
 
 }
 
 export async function userExistence(req, res){
+
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer ", "");
+
+    try {
+        const userSession = await connectionDB.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
+
+        const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE id=$1;`, [userSession.rows[0].userId]);
+
+        if(isUserExists.rows.length === 0){
+            res.status(404).send({message: "O usuário não existe!"});
+            return;
+        }
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+
+    next();
 
 }

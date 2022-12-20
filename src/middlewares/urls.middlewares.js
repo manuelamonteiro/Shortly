@@ -9,7 +9,7 @@ export async function loginAuthorization(req, res, next) {
     if (!token) {
         res.status(401).send({ message: "Você não está autorizado a prosseguir!" });
         return;
-    };
+    }
 
     try {
         const isSessionExists = await connectionDB.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
@@ -17,8 +17,7 @@ export async function loginAuthorization(req, res, next) {
         if (isSessionExists.rows.length === 0) {
             res.status(401).send({ message: "O usuário não está logado!" });
             return;
-        };
-
+        }      
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -39,7 +38,7 @@ export function urlsValidation(req, res, next) {
     next();
 }
 
-export async function shortUrlExistanceById(req, res, next) {
+export async function shortUrlExistenceById(req, res, next) {
 
     const { id } = req.params;
 
@@ -49,7 +48,7 @@ export async function shortUrlExistanceById(req, res, next) {
         if (isShortUrlExists.rows.length === 0) {
             res.status(404).send({ message: "A shortUrl não existe!" });
             return;
-        };
+        }
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -58,7 +57,7 @@ export async function shortUrlExistanceById(req, res, next) {
 
 }
 
-export async function shortUrlExistance(req, res, next) {
+export async function shortUrlExistence(req, res, next) {
 
     const { shortUrl } = req.params;
 
@@ -68,7 +67,7 @@ export async function shortUrlExistance(req, res, next) {
         if (isShortUrlExists.rows.length === 0) {
             res.status(404).send({ message: "A shortUrl não existe!" });
             return;
-        };
+        }
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -93,7 +92,6 @@ export async function shortUrlOwnerValidation(req, res, next) {
             res.status(401).send({message: "A shortUrl não pertence ao usuário!"});
             return;
         }
-
     } catch (error) {
         res.status(500).send({ message: error.message });
     }

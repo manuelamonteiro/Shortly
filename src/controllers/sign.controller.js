@@ -29,14 +29,14 @@ export async function postSignIn(req, res) {
         if (isUserExists.rows.length === 0) {
             res.status(401).send({ message: "Usuário e/ou senha incorretos!" });
             return;
-        };
+        }
 
         const passwordOk = bcrypt.compareSync(password, isUserExists.rows[0].password);
 
         if (!passwordOk) {
             res.status(401).send({ message: "Usuário e/ou senha incorretos!" });
             return;
-        };
+        }
 
         await connectionDB.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2);`,
             [isUserExists.rows[0].id, token]);
