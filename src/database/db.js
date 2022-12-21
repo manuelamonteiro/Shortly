@@ -6,7 +6,11 @@ dotenv.config();
 const { Pool } = pkg;
 
 const connectionDB = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    host: process.env.host,
+    port: process.env.portp,
+    user: process.env.userp,
+    password: process.env.password,
+    database: process.env.database
 });
 
 export default connectionDB;

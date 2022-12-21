@@ -42,7 +42,7 @@ export function userSignInValidation(req, res, next) {
 
 }
 
-export async function userExistence(req, res){
+export async function userExistence(req, res, next){
 
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");

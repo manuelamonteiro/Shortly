@@ -44,7 +44,7 @@ export async function shortUrlExistenceById(req, res, next) {
 
     try {
         const isShortUrlExists = await connectionDB.query(`SELECT * FROM urls WHERE id=$1;`, [id]);
-
+        
         if (isShortUrlExists.rows.length === 0) {
             res.status(404).send({ message: "A shortUrl não existe!" });
             return;
@@ -84,9 +84,7 @@ export async function shortUrlOwnerValidation(req, res, next) {
     const { id } = req.params;
 
     try {
-        const userSession = await connectionDB.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
-
-        const shortUrlByUser = await connectionDB.query(`SELECT * FROM urls WHERE id=$1 AND userId=$2;`, [id, userSession.rows[0].userId]);
+        const shortUrlByUser = await connectionDB.query(`SELECT * FROM urls JOIN sessions ON urls."userId" = sessions."userId" WHERE urls.id=$1 AND sessions.token=$2;`, [id, token]);
 
         if(shortUrlByUser.rows.length === 0){
             res.status(401).send({message: "A shortUrl não pertence ao usuário!"});

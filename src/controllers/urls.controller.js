@@ -62,7 +62,7 @@ export async function deleteUrl(req, res) {
     try {
         await connectionDB.query("DELETE FROM urls WHERE id=$1;", [id]);
 
-        res.status(204).send({ message: "ShortUrl deletada com sucesso!" });
+        res.sendStatus(204);
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
