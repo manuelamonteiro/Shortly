@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
-import signRouter from "./routers/sign.routers.js"
-import urlsRouter from "./routers/urls.routers.js"
+import dotenv from "dotenv";
+import signRouter from "./routers/sign.routers.js";
+import urlsRouter from "./routers/urls.routers.js";
+
+dotenv.config();
 
 const app = express();
 
