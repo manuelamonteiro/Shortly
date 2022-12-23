@@ -49,5 +49,21 @@ export async function postSignIn(req, res) {
 }
 
 export async function getUserUrls(req, res){
+
+    const { authorization } = req.headers;
+    const token = authorization?.replace("Bearer ", "");
     
+    try {
+        const userSession = await connectionDB.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
+
+        const userUrls = await connectionDB.query(`SELECT users.id, users.name, SUM(urls."visitCount") AS "visitCount",
+        json_agg(json_build_object('id', urls.id, 'shortUrl', urls."shortUrl", 'url', urls.url, 'visitCount', urls."visitCount"))
+        AS "shortenedUrls"
+        FROM users JOIN urls ON users.id = urls."userId" WHERE users.id =$1 GROUP BY users.id;`, [userSession.rows[0].userId]);
+
+        res.status(200).send(userUrls.rows);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+
 }

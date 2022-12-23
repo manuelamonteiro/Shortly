@@ -90,6 +90,15 @@ export async function shortUrlOwnerValidation(req, res, next) {
             res.status(401).send({message: "A shortUrl não pertence ao usuário!"});
             return;
         }
+
+        // const userSession = await connectionDB.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
+
+        // const userUrl = await connectionDB.query(`SELECT * FROM urls WHERE id=$1;`, [id]);
+
+        // if(userSession.rows[0].userId !== userUrl.rows[0].userId){
+        //     res.status(401).send({message: "A shortUrl não pertence ao usuário!"});
+        //     return;
+        // }
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
