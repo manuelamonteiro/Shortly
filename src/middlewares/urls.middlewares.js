@@ -17,7 +17,7 @@ export async function loginAuthorization(req, res, next) {
         if (isSessionExists.rows.length === 0) {
             res.status(401).send({ message: "O usuário não está logado!" });
             return;
-        }      
+        }
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
@@ -44,7 +44,7 @@ export async function shortUrlExistenceById(req, res, next) {
 
     try {
         const isShortUrlExists = await connectionDB.query(`SELECT * FROM urls WHERE id=$1;`, [id]);
-        
+
         if (isShortUrlExists.rows.length === 0) {
             res.status(404).send({ message: "A shortUrl não existe!" });
             return;
@@ -86,8 +86,8 @@ export async function shortUrlOwnerValidation(req, res, next) {
     try {
         const shortUrlByUser = await connectionDB.query(`SELECT * FROM urls JOIN sessions ON urls."userId" = sessions."userId" WHERE urls.id=$1 AND sessions.token=$2;`, [id, token]);
 
-        if(shortUrlByUser.rows.length === 0){
-            res.status(401).send({message: "A shortUrl não pertence ao usuário!"});
+        if (shortUrlByUser.rows.length === 0) {
+            res.status(401).send({ message: "A shortUrl não pertence ao usuário!" });
             return;
         }
 

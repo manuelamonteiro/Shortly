@@ -7,7 +7,6 @@ import urlsRouter from "./routers/urls.routers.js";
 dotenv.config();
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 

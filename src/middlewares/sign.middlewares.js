@@ -42,7 +42,7 @@ export function userSignInValidation(req, res, next) {
 
 }
 
-export async function userExistence(req, res, next){
+export async function userExistence(req, res, next) {
 
     const { authorization } = req.headers;
     const token = authorization?.replace("Bearer ", "");
@@ -52,8 +52,8 @@ export async function userExistence(req, res, next){
 
         const isUserExists = await connectionDB.query(`SELECT * FROM users WHERE id=$1;`, [userSession.rows[0].userId]);
 
-        if(isUserExists.rows.length === 0){
-            res.status(404).send({message: "O usuário não existe!"});
+        if (isUserExists.rows.length === 0) {
+            res.status(404).send({ message: "O usuário não existe!" });
             return;
         }
     } catch (error) {

@@ -69,13 +69,13 @@ export async function deleteUrl(req, res) {
 
 }
 
-export async function getRanking(req, res){
-    
+export async function getRanking(req, res) {
+
     try {
         const ranking = await connectionDB.query(`SELECT users.id, users.name, COUNT(urls) AS "linksCount", SUM(urls."visitCount") AS "visitCount" FROM users LEFT JOIN urls ON users.id = urls."userId" GROUP BY users.id ORDER BY "visitCount" DESC LIMIT 10`);
 
-        for(let i = 0; i < ranking.rows.length; i ++){
-            if(ranking.rows[i].visitCount === null){
+        for (let i = 0; i < ranking.rows.length; i++) {
+            if (ranking.rows[i].visitCount === null) {
                 ranking.rows[i].visitCount = 0;
             }
         }
